@@ -1,0 +1,523 @@
+1-Two sum #1
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        map<int, int> hash;
+        vector<int> result;
+        for(int i=0; i < nums.size();++i){
+            int desiredNumber = target - nums[i];
+            
+            if(hash.find(desiredNumber) != hash.end()){
+                result.push_back(hash[desiredNumber]);
+                result.push_back(i);
+                return result;
+            }
+            hash[nums[i]]=i;
+        }
+        return result;
+    }
+};
+
+2-String to Integer(atoi) #8
+class Solution {
+public:
+    int myAtoi(string str) {
+        int i = 0;
+        int sign = 1;
+        int output = 0;
+        if (str.length()==0) 
+            return 0;
+        
+        while(i<str.length() && str[i] == ' ')
+            i++;
+        
+        if(i<str.length() && (str[i] == '+' || str[i] == '-')){
+            if (str[i]=='-')
+                sign = -1;
+            else
+                sign = 1;
+                ++i;
+            }
+        /*
+        це рішення сайт не приймає
+        
+        while (i < str.length() && str[i] >= '0' && str[i] <= '9') {
+           
+        if (output > 2147483648/10 ||
+            (output == 2147483648 / 10 && str[i] - '0' > 2147483648 % 10)) {
+            return (sign == 1) ? 2147483648 : (-2147483648);
+        }
+            output = output * 10 + (str[i++] - '0');
+         
+            }
+    return output * sign;
+        */
+    
+          while (i < str.length() && str[i] >= '0' && str[i] <= '9') {
+            if (output > INT_MAX / 10 ||
+                    (output == INT_MAX / 10 && str[i] - '0' > INT_MAX % 10)) {
+                return (sign == 1) ? INT_MAX : INT_MIN;
+            }
+            output = output * 10 + (str[i++] - '0');
+        }
+        return output * sign;
+    }
+};
+
+3-Integer to Roman #12
+class Solution {
+public:
+    string intToRoman(int num) { 
+        int decimal [] = {1000,900,500,400,100,90,50,40,10,9,5,4,1};
+        char *symbol[] = {"M", "CM", "D", "CD","C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"};
+        int i = 0;
+        string str;
+        while(num){
+            while(num/decimal[i]){
+                str += symbol[i]; 
+                num -= decimal[i]; 
+                }
+            i++;
+            
+            }
+        return str;
+    }
+    
+};
+
+4-Roman to Integer #13
+class Solution {
+public:
+    string intToRoman(int num) { 
+        int decimal [] = {1000,900,500,400,100,90,50,40,10,9,5,4,1};
+        char *symbol[] = {"M", "CM", "D", "CD","C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"};
+        int i = 0;
+        string str;
+        while(num){
+            while(num/decimal[i]){
+                str += symbol[i]; 
+                num -= decimal[i]; 
+                }
+            i++;
+            
+            }
+        return str;
+    }
+    
+};
+
+5-Rotate Image #48
+class Solution {
+public:
+    void rotate(vector<vector<int>>& matrix) {
+    for (int i = 0; i <matrix.size()/2; ++i) {
+        for (int j = i; j <matrix.size()-i-1; ++j)  {
+                swap(matrix[i][j],matrix[j][matrix.size()-i-1]);
+                swap(matrix[i][j],matrix[matrix.size()-i-1][matrix.size()-j-1]);
+                swap(matrix[i][j],matrix[matrix.size()-j-1][i]);
+        }
+    }
+}
+};
+
+6-Single Number #136
+class Solution {
+public:
+    int singleNumber(vector<int>& nums) {
+        int n = 0;
+        int i = nums.size();
+        
+        while(i--)
+            n^=nums[i];
+        
+        return n;
+    }
+};
+
+7-Power of Two #231
+class Solution {
+public:
+    bool isPowerOfTwo(int n) {
+        return(n>0 && !(n & (n-1)));
+    }
+};
+
+8-First bad Version #278
+class Solution {
+public:
+    int firstBadVersion(int n) {
+        int low = 1, high = n, mid;
+        
+        while (low <= high) {
+            mid = low + (high - low) / 2;
+            
+            if (isBadVersion(mid)) {
+                high = mid - 1;
+            } else {
+                low = mid + 1;
+            }
+        }
+        
+        return low;
+        
+    }
+};
+
+9-Remove Duplicates from Sorted Array #26
+class Solution {
+public:
+    int removeDuplicates(vector<int>& nums) {
+        
+        if(!nums.size())
+            return 0;
+        
+        int result = 0;
+        
+        for(int i = 1; i < nums.size(); ++i)
+        {
+            if(nums[i] != nums[result])
+            {
+                result++;
+                nums[result] = nums[i];
+            }
+        }
+      
+        return result+1;
+    }
+};
+
+10-Remove Outermost Parentheses #1021
+class Solution {
+public:
+    string removeOuterParentheses(string str) {
+      string output;
+      int state = 0;
+      
+      for (auto &token : str) {
+        if ((token == '(' && state > 0) || (token == ')' && state > 1)) {
+            output += token;
+        }
+        state += (token == '(' ? 1 : -1);
+      }
+      
+      return output;
+      
+    }
+};
+
+11-Add Two Numbers #2
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        int sum = 0;
+        ListNode *output = nullptr;
+        ListNode **Node = &output;
+        
+        if(l1 && !l2)
+            return l1;
+        if(!l1 && l2)
+            return l2;
+        
+        while(l1 || l2 || sum>0){
+            if(l1){
+                sum +=l1->val;
+                l1=l1->next;
+            }
+            if(l2){
+                sum+=l2->val;
+                l2=l2->next;
+            }
+            
+            *Node = new ListNode(sum%10);
+            sum /=10;
+            
+            Node=&((*Node)->next);
+        }
+        
+        return output;
+            
+    }
+};
+
+12-Range Sum of BST #938
+ /**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    int rangeSumBST(TreeNode* root, int L, int R) {
+      int sum = 0;
+      stack<TreeNode*> st;
+      
+      st.push(root);
+      
+      while (!st.empty()) {
+        TreeNode *node = st.top();
+        st.pop();
+        
+        if (node != nullptr) {
+        
+          if (L <= node->val && node->val <= R)
+            sum += node->val;
+
+          if (L < node->val)
+            st.push(node->left);
+
+          if (node->val < R)
+            st.push(node->right);
+        
+        }
+      }
+      
+      return sum;
+    }
+};
+
+13-Merge Two Sorted Lists #21
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
+    if(l1 == nullptr) 
+        return l2;
+    if(l2 == NULL) 
+        return l1;
+        
+    if (l2->val < l1->val) {
+        ListNode *a1 = l1;
+        l1 = l2;
+        l2 = a1;
+    }
+    ListNode *output = l1;
+        
+    while (true) {
+        if (l1->next == nullptr) {
+            l1->next = l2;
+            break;
+        }
+        if (l2->val < l1->next->val) {
+            ListNode *a2 = l1->next;
+            l1->next = l2;
+            l2 = a2;
+        if (l2 == nullptr)
+                break;
+        } else {
+            l1 = l1->next;
+        }
+    }
+    return output;
+}
+};
+
+14-Squares of a Sorted Array #977
+class Solution {
+public:
+    vector<int> sortedSquares(vector<int>& A) {
+         int N = A.size();
+      int j = 0;
+      
+      while (j < N && A[j] < 0) j++;
+      
+      int i = j - 1;
+      
+      vector<int> ans(N);
+      int t = 0;
+      
+      while (i >= 0 && j < N) {
+        if (A[i] * A[i] < A[j] * A[j]) {
+          ans[t++] = A[i] * A[i];
+          i--;
+        } else {
+          ans[t++] = A[j] * A[j];
+          j++;
+        }
+      }
+      
+      while (i >= 0) {
+        ans[t++] = A[i] * A[i];
+        i--;
+      }
+      while (j < N) {
+        ans[t++] = A[j] * A[j];
+        j++;
+      }
+      
+      
+
+      return ans;
+    }
+};
+
+15-Fibonacci Number #509
+class Solution {
+public:
+    int fib(int N) {
+        int a = 0;
+        int b = 1;
+      
+      while (N--) {
+        int t = a;
+        a = b;
+        b = t + b;
+      }
+      
+      return a;
+    }
+};
+
+16-Counting Bits #338
+class Solution {
+public:
+    
+    vector<int> countBits(int num) {
+        vector<int> a(num + 1);
+        
+        for (int i = 0; i <= num; i++) {
+            int total = 0;
+            int n = i;
+            for (;n; n>>=1) total += n & 1;
+            a[i] = total;
+        }
+        return a;
+    }
+};
+
+17-Move Zeroes #283
+class Solution {
+public:
+    void moveZeroes(vector<int>& nums) {
+        int j = 0;
+        for(int i = 0; i < nums.size() ; i++){
+            if(nums[i]!=0){
+                nums[j++]=nums[i];
+            }
+        }
+        
+        while(j<nums.size())
+            nums[j++]=0;
+    }
+};
+
+18-ZigZag Conversion #6
+class Solution {
+public:
+    string convert(string s, int numRows) {
+        string res ;
+        
+        if (numRows == 1)
+            return s;
+        
+        int length = s.size();
+        
+        for (int i=0;i<numRows;i++)
+        {
+            int it=(length/numRows);
+            string str;
+            
+            while (it>=0)
+            {
+                int index=(2*numRows-2)*it+i;
+                
+                if (index < length)
+                    str.push_back(s[index]);
+                
+                if ((index-2*i) >= numRows && 
+                        (index-2*i) < length && i!=0 && i != numRows-1)
+                    str.push_back(s[index-2*i]);
+                it--;
+            }
+            reverse(str.begin(),str.end());
+            res=res+str;
+        }
+        return res;
+    } 
+};
+
+19-Find the Duplicate Number #287
+class Solution {
+public:
+    int findDuplicate(vector<int>& nums) {
+      std::sort(nums.begin(), nums.end());
+      for (int i = 0; i < nums.size() - 1; i++) {
+        if (nums[i] == nums[i + 1]) {
+          return nums[i];
+        }
+      }
+      return -1;
+    }
+};
+20-Median of Two Sorted Arrays #4
+class Solution {
+public:
+    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+         vector<int>nums3;
+        int i=0, j=0;
+        float p;
+        while(i!=nums1.size() && j!=nums2.size())
+        {
+            if(nums1[i] <= nums2[j])
+            {
+                nums3.push_back(nums1[i]);
+                i++;
+            }
+            else
+            {
+                nums3.push_back(nums2[j]);
+                j++;
+            }
+        }
+        if(i==nums1.size() && j!=nums2.size())
+        {
+            while(j!=nums2.size())
+            {
+                nums3.push_back(nums2[j]);
+                j++;
+            }
+        }
+        else if(i!=nums1.size() && j==nums2.size())
+        {
+            while(i!=nums1.size())
+            {
+                nums3.push_back(nums1[i]);
+                i++;
+            }
+        }
+        int l = nums3.size();
+        if(l%2==0)
+        {
+           p =(float)(nums3[l/2]+nums3[(l/2)-1])/2;  
+        }
+        else
+        {
+            p = nums3[l/2];
+        }
+        return p;
+    }
+};
