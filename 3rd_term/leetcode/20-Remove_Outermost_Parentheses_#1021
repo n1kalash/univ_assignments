@@ -1,0 +1,19 @@
+20-Remove Outermost Parentheses #1021
+class Solution {
+public:
+    string removeOuterParentheses(string str) {
+      string output;
+      int state = 0;
+      
+      for (auto &token : str) {
+        if ((token == '(' && state > 0) || (token == ')' && state > 1)) {
+            output += token;
+        }
+        state += (token == '(' ? 1 : -1);
+      }
+      
+      return output;
+      
+    }
+};
+

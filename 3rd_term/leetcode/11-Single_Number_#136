@@ -1,0 +1,14 @@
+11-Single Number #136
+class Solution {
+public:
+    int singleNumber(vector<int>& nums) {
+        int n = 0;
+        int i = nums.size();
+        
+        while(i--)
+            n^=nums[i];
+        
+        return n;
+    }
+};
+
