@@ -1,5 +1,5 @@
-###   haystack початковий рядок
-###   needle рядок для перевірки циклічного зсуву
+#   haystack початковий рядок
+#   needle рядок для перевірки циклічного зсуву
 
 # Формуємо таблицю префікс-функції
 # повертає сформований массив префікс-функції
@@ -19,18 +19,17 @@ def prefix(s: str):
     return result
 
 
-
 "Алгоритм Кнута-Морріса-Пратта"
 # Функція повертає позицію на якій відбувається повний збіг, якщо
 # збігу не відбувається, то повертає -1, приймає на вхід порівнюванні рядки.
 def kmp(needle: str, haystack: str) -> int:
     index = -1
-    pi = prefix(needle)  #  побудова префукс-функції
+    pi = prefix(needle)  # побудова префукс-функції
     coincidence = 0
 
     for i in range(len(haystack)):
 
-        #. Поки coincidence > 0 і needle[coincidence] != haystack[i], записуємо coincidence = pi[coincidence - 1]
+        # Поки coincidence > 0 і needle[coincidence] != haystack[i], записуємо coincidence = pi[coincidence - 1]
         while coincidence > 0 and needle[coincidence] != haystack[i]:
             coincidence = pi[coincidence - 1]
 
@@ -45,7 +44,7 @@ def kmp(needle: str, haystack: str) -> int:
     return index
 
 
-#
+# Функція перевірки на наявність циклічного зсуву
 def check(haystack: str, needle: str) -> bool:
     # якщо рядки різної довжини - повертає False
     if len(haystack) != len(needle):
@@ -63,7 +62,7 @@ def check(haystack: str, needle: str) -> bool:
     else:
         return False
 
-"Функція demo створення для демонстрації можливостей програми"
+"Функція demo створення для демонстрації можливостей програми."
 def demo():
     print("Start demo")
     while True:
